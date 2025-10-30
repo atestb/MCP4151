@@ -2,7 +2,7 @@
 #include "Utils.h"
 
 MCP4151::MCP4151(uint8_t chipselectPin, uint8_t clockPin, uint8_t dataPin)
-  : _chipselectPin(chipselectPin), _clockPin(clockPin), _dataPin(dataPin) {}
+  : _chipselectPin(chipselectPin), _clockPin(clockPin), _dataPin(dataPin), _debugOutputOverSerial(false) {}
 
 void MCP4151::begin(void) {
   pinMode(_chipselectPin, OUTPUT);
@@ -12,6 +12,23 @@ void MCP4151::begin(void) {
   chipSelect(false);
   clockSet(LOW);
   dataLineSet(false);
+}
+
+// TODO: document the baud rate specifics of this for the end-user of the lib
+// not complicated, but people starting the default 9600 serial instead of the explicit 15200
+// terminal intended here might get rubbish
+void MCP4151::startDebugOutputOverSerial(void) {
+  if (!Serial) { 
+    Serial.begin(115200); // activate serial with 115200 if not active
+    while (!Serial) { ; }
+    _debugOutputOverSerial = true;
+  }
+}
+
+void MCP4151::stopDebugOutputOverSerial(void) {
+  // don't stop the serial, since we cannot be sure if we started it.
+  // but stop the methods from outputting debug information by:
+  _debugOutputOverSerial = false;
 }
 
 void MCP4151::chipSelect(bool select) {
@@ -40,10 +57,12 @@ void MCP4151::setWiper(uint16_t value) {
   // now blend in the data in bits 0:8 from the function argument
   uint16_t mask = 0x01FF;
   uint16_t writeCommand = (writeCommandWithoutData & ~mask) | (value & mask);
-  Serial.begin(9600);
-  Serial.print("Sending command: ");
-  printBits(writeCommand);
-  Serial.println();
+  
+  if(_debugOutputOverSerial) {
+    Serial.print("Sending command: ");
+    printBits(writeCommand);
+    Serial.println();
+  }
 
   chipSelect(true);
   sendWriteCommand(writeCommand);

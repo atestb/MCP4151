@@ -6,7 +6,6 @@ void setup() {
   // put your setup code here, to run once:
   Mcp4151.begin();
   Mcp4151.setWiper(0);
-  Serial.begin(9600);
 }
 
 void loop() {
