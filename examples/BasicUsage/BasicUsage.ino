@@ -23,7 +23,7 @@ void loop() {
   */
   for (int i=0; i <= 256; i++) {
     Mcp4151.setWiper(i);
-    //delay(50);
+    delay(200);
   }
 }
 
