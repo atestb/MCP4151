@@ -33,7 +33,7 @@ There are three pins of the Arduino chosen at random/your choice:
 * **3** is chosen as **SCK** pin in the example code
 * **4** is chosen as **SDIO** pin in the example code
 
-You can choose **any three pins** of the Arduino, **as long as** they can be digital outputs aka ```pinMode(PIN, OUTPUT)``` and ```digitalWrite(PIN)``` work normally on your chosen Arduino pins.<br>
+You can choose **any three pins** of the Arduino, **as long as** they can be digital outputs aka ```pinMode(PIN, OUTPUT)``` and ```digitalWrite(PIN, HIGH/LOW)``` work normally on your chosen Arduino pins.<br>
 You then just connect the pins of Arduino with the pins with corresponding role on the MCP4151 (CS to CS, SCK to SCK), **except that** the chosen pin for SDIO transfer (pin 4 in the code example above) MUST be connected via a resistor to the SDIO pin of the MCP4151. For example I chose 330Ohm and it worked. 1kOhm did not work for me by the way.<br>
 This section has been talking about the pins that take part in data transfer. On the MCP4151 these are in my IC variant these are pins 1 throught 3 (CS, SCK, SDIO). Next section talks about the three pins that comprise the electrical potentiometer interface (pins 5 through 7 in my variant).
 
