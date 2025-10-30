@@ -18,9 +18,7 @@ void MCP4151::begin(void) {
 // not complicated, but people starting the default 9600 serial instead of the explicit 15200
 // terminal intended here might get rubbish
 void MCP4151::startDebugOutputOverSerial(void) {
-  if (!Serial) { 
-    Serial.begin(115200); // activate serial with 115200 if not active
-    while (!Serial) { ; }
+  if (Serial) {
     _debugOutputOverSerial = true;
   }
 }
