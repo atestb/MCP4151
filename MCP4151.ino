@@ -1,8 +1,11 @@
+#include "MCP4151.h"
+
+MCP4151 Mcp4151(2, 3, 4);
 
 void setup() {
   // put your setup code here, to run once:
-  MCP4151_init();
-  MCP4151_set_wiper(0);
+  Mcp4151.begin();
+  Mcp4151.setWiper(0);
   Serial.begin(9600);
 }
 
@@ -16,23 +19,16 @@ void loop() {
     Serial.print(value);
     Serial.print(" = ");
     printBits(value);
-    MCP4151_set_wiper(value);
+    Mcp4151.setWiper(value);
   } 
   */
   for (int i=0; i <= 256; i++) {
-    MCP4151_set_wiper(i);
+    Mcp4151.setWiper(i);
     //delay(50);
   }
 }
 
-void printBits(uint16_t val) {
-  Serial.print("0b");
-  for (int i = 15; i >= 0; i--) {           // von MSB nach LSB
-    Serial.print((val >> i) & 1);           // Bit extrahieren und ausgeben
-    //if (i % 4 == 0) Serial.print(' ');      // optional: kleine Gruppen für Lesbarkeit
-  }
-  Serial.println();
-}
+
 
 
 
